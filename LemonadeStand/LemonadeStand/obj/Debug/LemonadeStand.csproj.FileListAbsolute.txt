@@ -1,0 +1,2 @@
+C:\Users\Drama\AppData\Local\Temporary Projects\LemonadeStand\bin\Debug\LemonadeStand.exe.config
+C:\Users\Drama\Desktop\devcodecampprojects\LemonadeStand\LemonadeStand\LemonadeStand\bin\Debug\LemonadeStand.exe.config
