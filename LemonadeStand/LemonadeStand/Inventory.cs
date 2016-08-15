@@ -13,12 +13,17 @@ namespace LemonadeStand
         IceCubes IceCubes;
         PaperCups PaperCups;
         decimal Money;
-        public Inventory(Lemons StoreLemons, Sugar StoreSugar, IceCubes StoreIceCubes, PaperCups StorePaperCups)
+        public Inventory()
         {
-            this.Lemons = StoreLemons;
-            this.Sugar = StoreSugar;
-            this.PaperCups = StorePaperCups;
-            this.IceCubes = StoreIceCubes;
+            Lemons = new Lemons();
+            Sugar = new Sugar();
+            IceCubes = new IceCubes();
+            PaperCups = new PaperCups();
+   
+            this.Lemons = Lemons;
+            this.Sugar = Sugar;
+            this.PaperCups = PaperCups;
+            this.IceCubes = IceCubes;
             this.Money = 20;
         }
         public Lemons GetInventoryLemons()

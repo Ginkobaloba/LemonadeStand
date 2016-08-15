@@ -12,12 +12,9 @@ namespace LemonadeStand
         Sugar StoreSugar;
         IceCubes StoreIceCubes;
         PaperCups StorePaperCups;
-        public Store(Player player, Weather weather)
+        public Store(Player player, Weather weather, Inventory Inventory)
         {
-            StoreLemons = new Lemons();
-            StoreSugar = new Sugar();
-            StoreIceCubes = new IceCubes();
-            StorePaperCups = new PaperCups();
+
         }
     }
 }

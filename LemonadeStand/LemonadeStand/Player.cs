@@ -11,10 +11,19 @@ namespace LemonadeStand
         string PlayerName;
         Inventory inventory;
 
-        public Player()
+        public Player(string PlayerName)
         {
-
+            Inventory inventory = new Inventory();
+            this.PlayerName = PlayerName;
+            this.inventory = inventory;
         }
-
+        public Inventory GetInventory()
+        {
+            return this.inventory;
+        }
+        public string GetPlayerName()
+        {
+            return this.PlayerName;
+        }
     }
 }

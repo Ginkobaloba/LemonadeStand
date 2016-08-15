@@ -9,5 +9,7 @@ namespace LemonadeStand
     public class Day
     {
         int NumberofDays;
+        public Day(int NumberOfDays)
+        { }
     }
 }
