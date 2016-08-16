@@ -8,19 +8,19 @@ namespace LemonadeStand
 {
     public class IceCubes
     {
-        int QuanityIceCubes;
+        int QuanityOfIceCubes;
         double MeltRateIcecubes;
         double PriceOfIceCubes;
 
     public IceCubes()
         {
-            this.QuanityIceCubes = 0;
+            this.QuanityOfIceCubes = 0;
             this.MeltRateIcecubes = 100;
             this.PriceOfIceCubes = .01;
         }
-    public void SetQuanityIceCubes(int AmountIceCubesBought)
+    public void SetQuanityofIceCubes(int AmountIceCubesBought)
         {
-            this.QuanityIceCubes = this.QuanityIceCubes + AmountIceCubesBought;
+            this.QuanityOfIceCubes = this.QuanityOfIceCubes + AmountIceCubesBought;
         }
     public void SetMeltRateOfIceCubes()
         {
@@ -34,9 +34,9 @@ namespace LemonadeStand
         {
             return this.PriceOfIceCubes;
         }
-    public int GetQuanityIceCubes()
+    public int GetQuanityOfIceCubes()
         {
-            return this.QuanityIceCubes;
+            return this.QuanityOfIceCubes;
         }
     public double GetMeltRateOfIceCubes()
         {

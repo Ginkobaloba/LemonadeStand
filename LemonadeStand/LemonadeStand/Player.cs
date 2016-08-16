@@ -9,12 +9,12 @@ namespace LemonadeStand
     public class Player
     {
         string PlayerName;
-        Inventory inventory;
+        public Inventory inventory;
 
-        public Player(string PlayerName)
+        public Player()
         {
             Inventory inventory = new Inventory();
-            this.PlayerName = PlayerName;
+            this.PlayerName = "PlayerName";
             this.inventory = inventory;
         }
         public Inventory GetInventory()
@@ -24,6 +24,10 @@ namespace LemonadeStand
         public string GetPlayerName()
         {
             return this.PlayerName;
+        }
+        public void SetPlayerName(String NewPlayerName)
+        {
+            this.PlayerName = NewPlayerName;
         }
     }
 }

@@ -8,19 +8,19 @@ namespace LemonadeStand
 {
     public class Sugar
     {
-        int QuanitySugar;
+        int QuanityOfSugar;
         double SpoilRateSugar;
         double PriceOfSugar;
 
         public Sugar()
         {
-            this.QuanitySugar = 0;
+            this.QuanityOfSugar = 0;
             this.SpoilRateSugar = 0;
             this.PriceOfSugar = .05;
         }
-        public void SetQuanitySugar(int AmountSugarBought)
+        public void SetQuanityOfSugar(int AmountSugarBought)
         {
-            this.QuanitySugar = this.QuanitySugar + AmountSugarBought;
+            this.QuanityOfSugar = this.QuanityOfSugar + AmountSugarBought;
         }
         public void SetSpoilRateSugar(Weather weather)
         {
@@ -35,9 +35,9 @@ namespace LemonadeStand
         {
             return this.SpoilRateSugar; 
         }
-        public int GetQuanitySugar()
+        public int GetQuanityOfSugar()
         {
-            return this.QuanitySugar;
+            return this.QuanityOfSugar;
         }
         public double GetPriceOfSugar()
         {

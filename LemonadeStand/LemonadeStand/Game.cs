@@ -8,31 +8,40 @@ namespace LemonadeStand
 {
     public class Game
     {
-        Weather myWeather = new Weather();
-        Sugar sugar = new Sugar();
-        Player PlayerOne;
-        int Days;
-        
+        Weather myWeather;
+        Player playerOne;
+        Day day;
+        Customers[] customers;
+        Store store;
+        Popularity popularity;
+        public Game()
+        {
+            myWeather = new Weather();
+            playerOne = new Player();
+            day = new Day(0);
+            store = new Store();
+
+        }
+
         public void RunGame()
         {
-            this.Introduction();
-            sugar.SetSpoilRateSugar(myWeather);
-            Console.WriteLine(" Temperature is: {0}",myWeather.GetTemperature());
-            Console.WriteLine("The Weather Condition is: {0}",myWeather.GetWeatherConditionString());
-            Console.WriteLine(" Sugar Quanity {0} / Price {1}/ SpoilRate {2}", sugar.GetQuanitySugar(),sugar.GetPriceOfSugar(),sugar.GetSpoilRateSugar());
+            this.RunIntroduction();
+            for (int i = 1; i < (day.GetNumberofDays() + 1); i++)
+                {
+                this.RunStore();
+                Console.WriteLine(i);
+                }
             Console.ReadLine();
         }
 
-        public void Introduction()
+        public void RunIntroduction()
         {
             Console.WriteLine("Welcome To Lemonade Stand!");
             Console.ReadLine();
-            Console.WriteLine("PlayerOne, What is your name?");
-            PlayerOne = new Player(Console.ReadLine());
+            Console.WriteLine("Hello, What is your name?");
+            playerOne.SetPlayerName(Console.ReadLine());
             Console.Clear();
-            Console.WriteLine("Thank You {0}", PlayerOne.GetPlayerName());
-            Console.ReadLine();
-            Console.Clear();
+            this.PromptSetPlayerName();
             Console.WriteLine("You have 7, 14, or 21 days to make as much money as possible, and you’ve decided to open a lemonade stand!");
             Console.WriteLine("You’ll have complete control over your business, including pricing, quality control, inventory control,");
             Console.WriteLine("and purchasing supplies. Buy your ingredients, set your recipe, and start selling!");
@@ -56,22 +65,73 @@ namespace LemonadeStand
             Console.WriteLine("and try to beat your high score!");
             Console.ReadLine();
             Console.WriteLine("How Long would you like to run your Lemonade Stand? 7, 14 or 21 days");
-            string test = Console.ReadLine();
-           if (Console.ReadLine()=="7" || Console.ReadLine()=="14" || Console.ReadLine()=="21")
+            this.PromptSetNumberOfDays();
+            Console.Clear();
+            Console.WriteLine("Thank You, You have Selected to play for {0} days.", day.GetNumberofDays());
+            Console.ReadLine();
+            Console.Clear();
+        }
+        public void RunStore()
+        {
+            
+            this.store.GetStoreDisplay(playerOne, myWeather);
+            Console.WriteLine("Welcome to the store From this screen you will be able to purchase all the supplies needed to run your stand");
+            Console.ReadLine();
+            this.store.GetStoreDisplay(playerOne, myWeather);
+
+            this.store.PurchaseLemons(playerOne);
+        }
+
+        public void PromptSetPlayerName()
+        {
+            string answer;
+            Console.WriteLine("{0}, is that correct?", playerOne.GetPlayerName());
+            answer = Console.ReadLine();
+            if (answer.ToLower() == "yes")
             {
-                Days = int.Parse(Console.ReadLine());
-            } 
+                Console.Clear();
+                Console.WriteLine("Thank You {0}", playerOne.GetPlayerName());
+                Console.ReadLine();
+                Console.Clear();
+            }
+            else if (answer.ToLower() == "no")
+            {
+                Console.Clear();
+                Console.WriteLine("PlayerOne, What is your name?");
+                playerOne.SetPlayerName(Console.ReadLine());
+                this.PromptSetPlayerName();
+            }
             else
             {
-                int Input;
-                do
-                {
-                    Console.Write("Invalid response. Please type 7, 14 or 21 days");
-                    Input = int.Parse(Console.ReadLine());
-                }
-                while (Input != 7 || Input != 14 || Input != 21);
+                Console.Clear();
+                Console.WriteLine("I'm sorry Please Type Yes or No.");
+                this.PromptSetPlayerName();
             }
-            
+        }
+        public void PromptSetNumberOfDays()
+        {
+            string NumberOfDays = Console.ReadLine();
+            if (NumberOfDays == "7" || NumberOfDays == "14" || NumberOfDays == "21")
+            {
+                day.SetNumberOfDays(int.Parse(NumberOfDays));
+
+            }
+            else
+            {
+                Console.WriteLine("I'm sorry, but the response you entered was Invalid. Please Choose 7, 14 or 21 days.");
+                PromptSetNumberOfDays();
+            }
+          }
+
+            public void AddCustomers()
+            {
+             for (int i = 0; i < customers.Length; i++)
+            {
+                customers[i] = new Customers(); 
+            }
+        
         }
     }
 }
+    
+

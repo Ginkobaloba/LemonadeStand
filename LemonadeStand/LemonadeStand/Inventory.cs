@@ -8,59 +8,63 @@ namespace LemonadeStand
 {
     public class Inventory
     {
-        Lemons Lemons;
-        Sugar Sugar;
-        IceCubes IceCubes;
-        PaperCups PaperCups;
-        decimal Money;
+        public Lemons lemons;
+        public Sugar sugar;
+        public IceCubes iceCubes;
+        public PaperCups paperCups;
+        public double money;
         public Inventory()
         {
-            Lemons = new Lemons();
-            Sugar = new Sugar();
-            IceCubes = new IceCubes();
-            PaperCups = new PaperCups();
+            lemons = new Lemons();
+            sugar = new Sugar();
+            iceCubes = new IceCubes();
+            paperCups = new PaperCups();
    
-            this.Lemons = Lemons;
-            this.Sugar = Sugar;
-            this.PaperCups = PaperCups;
-            this.IceCubes = IceCubes;
-            this.Money = 20;
+            this.lemons = lemons;
+            this.sugar = sugar;
+            this.paperCups = paperCups;
+            this.iceCubes = iceCubes;
+            this.money = 20;
         }
         public Lemons GetInventoryLemons()
         {
-            return this.Lemons;
+            return this.lemons;
         }
         public Sugar GetInventorySugar()
         {
-            return this.Sugar;
+            return this.sugar;
         }
         public IceCubes GetInventoryIceCubes()
         {
-            return this.IceCubes;
+            return this.iceCubes;
         }
         public PaperCups GetInventoryPaperCups()
         {
-            return this.PaperCups;
+            return this.paperCups;
         }
-        public decimal GetInventoryMoney()
+        public double GetInventoryMoney()
         {
-            return this.Money;
+            return this.money;
         }
-        public void SetInventoryLemons(Lemons StoreLemons)
+        public void SetInventoryLemons(Lemons storeLemons)
         {
-            this.Lemons = StoreLemons;
+            this.lemons = storeLemons;
         }
-        public void SetInventorySugar(Sugar StoreSugar)
+        public void SetInventorySugar(Sugar storeSugar)
         {
-            this.Sugar = StoreSugar;
+            this.sugar = storeSugar;
         }
-        public void SetInventoryPaperCups(PaperCups StorePaperCups)
+        public void SetInventoryPaperCups(PaperCups storePaperCups)
         {
-            this.PaperCups = StorePaperCups;
+            this.paperCups = storePaperCups;
         }
-        public void SetInventoryIceCubes(IceCubes StoreIceCubes)
+        public void SetInventoryIceCubes(IceCubes storeIceCubes)
         {
-            this.IceCubes = StoreIceCubes;
+            this.iceCubes = storeIceCubes;
+        }
+        public void SetInventoryMoney(double ChangeAmountOfMoney)
+        {
+            this.money =(this.money + ChangeAmountOfMoney);
         }
 
 

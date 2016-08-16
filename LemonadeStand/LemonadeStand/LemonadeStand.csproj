@@ -49,10 +49,12 @@
     <Compile Include="FileWriter.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="IceCubes.cs" />
+    <Compile Include="Introduction.cs" />
     <Compile Include="Inventory.cs" />
     <Compile Include="Lemons.cs" />
     <Compile Include="PaperCups.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Popularity.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store.cs" />
