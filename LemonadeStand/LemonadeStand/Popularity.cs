@@ -10,13 +10,17 @@ namespace LemonadeStand
     {
         int numberOfCustomers;
 
-    public Popularity(int numberOfCupsSold)
+    public Popularity()
     {
-            this.numberOfCustomers = 100 + (numberOfCupsSold / 2);
+            this.numberOfCustomers = 100;
     }
     public int GetPopularity()
         {
             return this.numberOfCustomers;
+        }
+    public void SetPopularity(int numberOfCupsSold)
+        {
+            this.numberOfCustomers = this.numberOfCustomers + (numberOfCupsSold / 25);
         }
     }
 }

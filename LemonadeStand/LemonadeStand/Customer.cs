@@ -6,16 +6,30 @@ using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
-    public class Customers
+    public class Customer
     {
         string customerName;
         int thirstLevel;
 
-        public Customers()
-     {
-            
-     }
+        public Customer(string name)
+        {
+            Random random = new Random();
+            this.customerName = name;
+            this.thirstLevel = random.Next(1, 6);
+        }
+      public int GetThirstLevel()
+        {
+            return this.thirstLevel;
+        }
+      public void SetThirstLevel()
+        {
 
-
+        }
+        public string GetCustomerName()
+        {
+            return this.customerName;
+        }
+           
 }
+
 }

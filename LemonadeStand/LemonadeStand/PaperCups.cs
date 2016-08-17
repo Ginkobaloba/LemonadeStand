@@ -11,12 +11,14 @@ namespace LemonadeStand
         double PriceOfPaperCups;
         double ChanceOfWetCups;
         int QuanityOfCups;
+        int NumberOfCupsInRecipe;
 
         public PaperCups()
         {
             this.PriceOfPaperCups = .03;
             this.QuanityOfCups = 0;
             this.ChanceOfWetCups = 0;
+            this.NumberOfCupsInRecipe = 1;
         }
         public void SetPriceOfPaperCups(double NewPriceOfPaperCups)
         {

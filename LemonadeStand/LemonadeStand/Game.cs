@@ -12,7 +12,7 @@ namespace LemonadeStand
         Weather[] myWeather;
         Player playerOne;
         Day day;
-        Customers[] customers;
+        Customer[] customers;
         Store store;
         Popularity popularity;
         public Game()
@@ -21,6 +21,7 @@ namespace LemonadeStand
             playerOne = new Player();
             day = new Day(0);
             store = new Store();
+            popularity = new Popularity();
 
         }
 
@@ -30,8 +31,10 @@ namespace LemonadeStand
             this.CreateArrayWeather(day.GetNumberofDays());
             for (int i = 0; i < day.GetNumberofDays(); i++)
             {
+                this.CreateCustomerArray();
                 this.RunStore(i);
-                Console.WriteLine(i);
+                this.RunDay(3);
+                ;
             }
             Console.ReadLine();
         }
@@ -84,6 +87,29 @@ namespace LemonadeStand
             this.store.GetStoreDisplay(playerOne, myWeather, day);
         }
 
+        public void RunDay(int MagicNumber)
+        {
+            int cupsSold;
+            double moneyMade;
+            moneyMade = 0;
+            cupsSold = 0;
+
+            for (int a = 0; a < customers.Length; a++)
+            {
+                if (customers[a].GetThirstLevel() >= MagicNumber)
+                    {
+                    Console.WriteLine("{0} bought a cup of lemonade!", customers[a].GetCustomerName());
+                    moneyMade = moneyMade + .25;
+                    cupsSold = cupsSold + 1;
+                    }
+                else
+                {
+                    Console.WriteLine("{0} walked passed without buying.", customers[a].GetCustomerName());
+                }
+            }
+            Console.WriteLine("Today you made {0}", moneyMade);
+            popularity.SetPopularity(cupsSold);
+        }
         public void PromptSetPlayerName()
         {
             string answer;
@@ -125,13 +151,6 @@ namespace LemonadeStand
             }
         }
 
-        public void AddCustomers()
-        {
-            for (int i = 0; i < customers.Length; i++)
-            {
-                customers[i] = new Customers();
-            }
-        }
         public void CreateArrayWeather(int gameLength)
         {
             myWeather = new Weather[gameLength];
@@ -142,9 +161,20 @@ namespace LemonadeStand
 
             }
         }
+        public void CreateCustomerArray()
+        {
+            int numberOfCustomers = popularity.GetPopularity();
+            customers = new Customer[numberOfCustomers];
+            for (int i = 0; i < numberOfCustomers; i++)
+            {
+                customers[i] = new Customer("Customer " + (i + 1));
+                Thread.Sleep(15);
+            }
 
-
+        }
     }
+
 }
+
 
 

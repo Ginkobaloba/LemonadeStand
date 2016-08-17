@@ -9,6 +9,7 @@ namespace LemonadeStand
 {
     public class Store
     {
+        int i;
         int numberToPurchase;
         string groceryType;
         public Store()
@@ -18,11 +19,12 @@ namespace LemonadeStand
             Console.Clear();
             Console.WriteLine("{6}    $ {7}            Todays Weather: {4}*F {5}    Tomorrow's Weather: {8}*F {9} \nLemons: {0}   Sugar: {1}    Ice: {2}      Cups: {3}     \n \n", playerOne.inventory.lemons.GetQuanityOfLemons(), playerOne.inventory.sugar.GetQuanityOfSugar(), playerOne.inventory.iceCubes.GetQuanityOfIceCubes(), playerOne.inventory.paperCups.GetQuanityOfCups(), myWeather[day].GetTemperature(), myWeather[day].GetWeatherConditionString(), playerOne.GetPlayerName(), playerOne.inventory.GetInventoryMoney(), myWeather[day+1].GetTemperature(), myWeather[day+1].GetWeatherConditionString());
         }
-        public void PurchaseGroceries(Player playerOne, Weather[] myWeather, int day)
+        public void PurchaseGroceries(Player playerOne, Weather[] myWeather, int day, int groceries = 0)
         {
-            for (int i = 0; i < 4; i++)
+           
+            for (; groceries < 4; groceries++)
             {
-                groceryType = GetGroceryType(i);
+                groceryType = GetGroceryType(groceries);
                 GetStoreDisplay(playerOne,  myWeather, day);
                 Console.WriteLine("How many {0} would you like to purchase?", groceryType);
                     if (int.TryParse(Console.ReadLine(), out numberToPurchase))
@@ -34,10 +36,10 @@ namespace LemonadeStand
                 else
                 {
                     Console.WriteLine("You Have Entered an Invalid Response.");
-                    this.PurchaseGroceries(playerOne, myWeather, day);
+                    this.PurchaseGroceries(playerOne, myWeather, day, groceries);
                 }
             }
-        }
+        } 
         public string GetGroceryType(int i)
         {
             switch (i)
@@ -136,9 +138,14 @@ namespace LemonadeStand
                         ItemCost = 0;
                         break;
                 }
+            }
+            else
+            {
+                Console.WriteLine("I'm");
+            }
 
             }
         }
     }
-}
+
     

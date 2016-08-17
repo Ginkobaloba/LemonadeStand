@@ -11,12 +11,14 @@ namespace LemonadeStand
         int QuanityOfLemons;
         double SpoilRateOfLemons;
         double PriceOfLemons;
+        int NumberOfLemonsInRecipe;
 
         public Lemons()
         {
             this.QuanityOfLemons = 0;
             this.SpoilRateOfLemons = 0;
             this.PriceOfLemons = .10;
+            this.NumberOfLemonsInRecipe = 0;
         }
         public void SetPriceOfLemons(double NewPriceOfLemons)
         {

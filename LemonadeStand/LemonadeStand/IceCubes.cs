@@ -11,12 +11,14 @@ namespace LemonadeStand
         int QuanityOfIceCubes;
         double MeltRateIcecubes;
         double PriceOfIceCubes;
+        int NumberOfCubesInRecipe;
 
     public IceCubes()
         {
             this.QuanityOfIceCubes = 0;
             this.MeltRateIcecubes = 100;
             this.PriceOfIceCubes = .01;
+            this.NumberOfCubesInRecipe = 0;
         }
     public void SetQuanityofIceCubes(int AmountIceCubesBought)
         {

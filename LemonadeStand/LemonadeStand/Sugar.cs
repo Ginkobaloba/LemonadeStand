@@ -11,12 +11,14 @@ namespace LemonadeStand
         int QuanityOfSugar;
         double SpoilRateSugar;
         double PriceOfSugar;
+        int NumberOfSugarInRecipe;
 
         public Sugar()
         {
             this.QuanityOfSugar = 0;
             this.SpoilRateSugar = 0;
             this.PriceOfSugar = .05;
+            this.NumberOfSugarInRecipe = 0;
         }
         public void SetQuanityOfSugar(int AmountSugarBought)
         {
