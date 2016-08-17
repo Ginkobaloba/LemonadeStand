@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LemonadeStand
 {
     public class Game
     {
-        Weather myWeather;
+        Weather[] myWeather;
         Player playerOne;
         Day day;
         Customers[] customers;
@@ -16,7 +17,7 @@ namespace LemonadeStand
         Popularity popularity;
         public Game()
         {
-            myWeather = new Weather();
+
             playerOne = new Player();
             day = new Day(0);
             store = new Store();
@@ -26,11 +27,12 @@ namespace LemonadeStand
         public void RunGame()
         {
             this.RunIntroduction();
-            for (int i = 1; i < (day.GetNumberofDays() + 1); i++)
-                {
-                this.RunStore();
+            this.CreateArrayWeather(day.GetNumberofDays());
+            for (int i = 0; i < day.GetNumberofDays(); i++)
+            {
+                this.RunStore(i);
                 Console.WriteLine(i);
-                }
+            }
             Console.ReadLine();
         }
 
@@ -71,15 +73,15 @@ namespace LemonadeStand
             Console.ReadLine();
             Console.Clear();
         }
-        public void RunStore()
+        public void RunStore(int day)
         {
-            
-            this.store.GetStoreDisplay(playerOne, myWeather);
+
+            this.store.GetStoreDisplay(playerOne, myWeather, day);
             Console.WriteLine("Welcome to the store From this screen you will be able to purchase all the supplies needed to run your stand");
             Console.ReadLine();
-            this.store.GetStoreDisplay(playerOne, myWeather);
-
-            this.store.PurchaseLemons(playerOne);
+            this.store.GetStoreDisplay(playerOne, myWeather, day);
+            this.store.PurchaseGroceries(playerOne, myWeather, day);
+            this.store.GetStoreDisplay(playerOne, myWeather, day);
         }
 
         public void PromptSetPlayerName()
@@ -121,17 +123,28 @@ namespace LemonadeStand
                 Console.WriteLine("I'm sorry, but the response you entered was Invalid. Please Choose 7, 14 or 21 days.");
                 PromptSetNumberOfDays();
             }
-          }
-
-            public void AddCustomers()
-            {
-             for (int i = 0; i < customers.Length; i++)
-            {
-                customers[i] = new Customers(); 
-            }
-        
         }
+
+        public void AddCustomers()
+        {
+            for (int i = 0; i < customers.Length; i++)
+            {
+                customers[i] = new Customers();
+            }
+        }
+        public void CreateArrayWeather(int gameLength)
+        {
+            myWeather = new Weather[gameLength];
+            for (int i = 0; i < myWeather.Length; i++)
+            {
+                myWeather[i] = new Weather();
+                Thread.Sleep(200);
+
+            }
+        }
+
+
     }
 }
-    
+
 

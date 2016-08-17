@@ -22,9 +22,9 @@ namespace LemonadeStand
         {
             this.PriceOfPaperCups = NewPriceOfPaperCups;
         }
-        public void SetNumberOfCups(int AmountOfCupsBought)
+        public void SetQuanityOfCups(int AmountOfCupsBought)
         {
-            this.PriceOfPaperCups = this.PriceOfPaperCups + AmountOfCupsBought;
+            this.QuanityOfCups = this.QuanityOfCups + AmountOfCupsBought;
         }
         public void SetChanceOfWetCups(Weather weather)
         {

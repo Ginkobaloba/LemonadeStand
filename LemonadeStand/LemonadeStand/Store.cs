@@ -5,35 +5,36 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace LemonadeStand
+
 {
     public class Store
     {
-       int numberToPurchase;
+        int numberToPurchase;
         string groceryType;
         public Store()
         { }
-        public void GetStoreDisplay(Player playerOne, Weather myWeather)
+        public void GetStoreDisplay(Player playerOne, Weather[] myWeather, int day)
         {
             Console.Clear();
-            Console.WriteLine("{6}    $ {7}  \nLemons: {0}   Sugar: {1}    Ice: {2}      Cups: {3}    Weather: {4}*F {5} \n \n", playerOne.inventory.lemons.GetQuanityOfLemons(), playerOne.inventory.sugar.GetQuanityOfSugar(), playerOne.inventory.iceCubes.GetQuanityOfIceCubes(), playerOne.inventory.paperCups.GetQuanityOfCups(), myWeather.GetTemperature(), myWeather.GetWeatherConditionString(), playerOne.GetPlayerName(), playerOne.inventory.GetInventoryMoney());
+            Console.WriteLine("{6}    $ {7}            Todays Weather: {4}*F {5}    Tomorrow's Weather: {8}*F {9} \nLemons: {0}   Sugar: {1}    Ice: {2}      Cups: {3}     \n \n", playerOne.inventory.lemons.GetQuanityOfLemons(), playerOne.inventory.sugar.GetQuanityOfSugar(), playerOne.inventory.iceCubes.GetQuanityOfIceCubes(), playerOne.inventory.paperCups.GetQuanityOfCups(), myWeather[day].GetTemperature(), myWeather[day].GetWeatherConditionString(), playerOne.GetPlayerName(), playerOne.inventory.GetInventoryMoney(), myWeather[day+1].GetTemperature(), myWeather[day+1].GetWeatherConditionString());
         }
-        public void PurchaseLemons(Player playerOne)
+        public void PurchaseGroceries(Player playerOne, Weather[] myWeather, int day)
         {
             for (int i = 0; i < 4; i++)
             {
-
                 groceryType = GetGroceryType(i);
-                Console.WriteLine("How many {0} would you like to purchase?",groceryType);
-                if (int.TryParse(Console.ReadLine(), out numberToPurchase))
-                {
-                    Console.Clear();
-                    numberToPurchase = this.confirmAmountToPurchase(numberToPurchase, groceryType);
-                    this.VerifyFunds(playerOne, numberToPurchase, groceryType);
-                }
+                GetStoreDisplay(playerOne,  myWeather, day);
+                Console.WriteLine("How many {0} would you like to purchase?", groceryType);
+                    if (int.TryParse(Console.ReadLine(), out numberToPurchase))
+                        {
+                            Console.Clear();
+                            numberToPurchase = this.confirmAmountToPurchase(numberToPurchase, groceryType, playerOne, myWeather, day);
+                            this.VerifyFunds(playerOne, numberToPurchase, groceryType);
+                     }
                 else
                 {
                     Console.WriteLine("You Have Entered an Invalid Response.");
-                    this.PurchaseLemons(playerOne);
+                    this.PurchaseGroceries(playerOne, myWeather, day);
                 }
             }
         }
@@ -42,176 +43,21 @@ namespace LemonadeStand
             switch (i)
             {
                 case 0:
-                 return "Lemons";
+                    return "lemons";
                 case 1:
-                  return "sugar";
+                    return "sugar";
                 case 2:
-                  return "iceCubes";
+                    return "ice Cubes";
                 case 3:
                     return "cups";
                 default:
                     return "PassionFruit";
             }
         }
-        //amountToPurchase = Console.ReadLine();
-        //switch (amountToPurchase)
-        //{
-        //    case "5":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-        //                    numberToPurchase = int.Parse(amountToPurchase);
-        //                    PlayerOne.inventory.set
-        //                    PlayerOne.inventory.lemons.SetQuanityOfLemons(numberToPurchase);
-        //                }
-        //                break;
-        //            case "no":
-        //                {
-        //                    this.PurchaseLemons(PlayerOne);
-        //                }
-        //                break;
-        //            default:
-        //                {
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                }
-        //                break;
-        //        }
-        //        break;
-        //    case "10":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-
-        //                }
-        //                break;
-        //            case "no":
-        //                    this.PurchaseLemons(PlayerOne);
-        //                break;
-        //            default:
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                break;
-        //        }
-        //        break;
-        //    case "25":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-
-        //                }
-        //                break;
-        //            case "no":
-        //                {
-        //                    this.PurchaseLemons(PlayerOne);
-        //                }
-        //                break;
-        //            default:
-        //                {
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                }
-        //                break;
-        //        }
-        //        break;
-        //    case "50":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-
-        //                }
-        //                break;
-        //            case "no":
-        //                {
-        //                    this.PurchaseLemons(PlayerOne);
-        //                }
-        //                break;
-        //            default:
-        //                {
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                }
-        //                break;
-        //        }
-        //        break;
-        //    case "100":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-
-        //                }
-        //                break;
-        //            case "no":
-        //                {
-        //                    this.PurchaseLemons(PlayerOne);
-        //                }
-        //                break;
-        //            default:
-        //                {
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                }
-        //                break;
-        //        }
-        //        break;
-        //    case "200":
-        //        Console.WriteLine("You Have Selected to Purchase {0} lemons are you sure? Yes or No?", amountToPurchase);
-        //        confirm = Console.ReadLine();
-        //        confirm = confirm.ToLower();
-        //        switch (confirm)
-        //        {
-        //            case "yes":
-        //                {
-
-        //                }
-        //                break;
-        //            case "no":
-        //                    this.PurchaseLemons(PlayerOne);
-        //                break;
-        //            default:
-        //                    Console.WriteLine("You have entered an invalid Selection");
-        //                break;
-        //        }
-        //        break;
-        //    default:
-        //        Console.WriteLine("You have entered an invalid selection");
-        //        break;
-
-
-
-        //    }
-        //}
-        //public void PurchaseSugar(Player PlayerOne)
-        //{
-        //    Console.WriteLine("How many Lemons would you like to purchase? 5, 10, 25, 50 or 100?");
-
-        //}
-        //public void PurchaseIceCubes(Player PlayerOne)
-        //{
-        //    Console.WriteLine("How many Lemons would you like to purchase? 5, 10, 25, 50 or 100?");
-        //}
-        //public void PurchaseCupslayer(Player PlayerOne)
-        //{
-        //    Console.WriteLine("How many Lemons would you like to purchase? 5, 10, 25, 50 or 100?");
-        //}
-        public int confirmAmountToPurchase(int amount, string groceryType)
+        public int confirmAmountToPurchase(int amount, string groceryType, Player playerOne, Weather[] myWeather, int day)
         {
             string confirm;
+            this.GetStoreDisplay(playerOne, myWeather, day);
             Console.WriteLine("You have selected to purchase {0} {1}. Is this correct? Yes or No?", amount, groceryType);
             confirm = Console.ReadLine();
             confirm = confirm.ToLower();
@@ -220,18 +66,20 @@ namespace LemonadeStand
                 case "yes":
                     return amount;
                 case "no":
+                    this.GetStoreDisplay(playerOne, myWeather,day);
                     Console.WriteLine("How many {0} would you like to purchase?", groceryType);
                     if (int.TryParse(Console.ReadLine(), out amount))
                     {
                         Console.Clear();
-                        numberToPurchase = this.confirmAmountToPurchase(amount, groceryType);
+                        numberToPurchase = this.confirmAmountToPurchase(amount, groceryType, playerOne, myWeather, day);
                     }
                     else
                     {
+                        this.GetStoreDisplay(playerOne, myWeather, day);
                         Console.WriteLine("You Have Entered an Invalid Response.");
                         Console.ReadLine();
                         Console.Clear();
-                        this.confirmAmountToPurchase(amount, groceryType);
+                        this.confirmAmountToPurchase(amount, groceryType, playerOne, myWeather, day);
 
                     }
                     return amount;
@@ -239,40 +87,58 @@ namespace LemonadeStand
                     Console.WriteLine("You have entered an invalid Selection");
                     Console.ReadLine();
                     Console.Clear();
-                    this.confirmAmountToPurchase(amount, groceryType);
+                    this.confirmAmountToPurchase(amount, groceryType, playerOne, myWeather, day);
                     return amount;
             }
         }
-                public void VerifyFunds(Player playerOne, int NumbertoPurchase, string groceryType)
-                {
-                    double ItemCost;
+        public void VerifyFunds(Player playerOne, int NumbertoPurchase, string groceryType)
+        {
+            double ItemCost;
 
 
-                    switch(groceryType)
-                    {
-                        case "lemons":
-                            ItemCost = playerOne.inventory.lemons.GetPriceOfLemons();
-                        break;
-                        case "iceCubes":
-                            ItemCost = playerOne.inventory.iceCubes.GetPriceOfIceCubes();
-                        break;
-                        case "cups":
-                            ItemCost = playerOne.inventory.paperCups.GetPriceOfPaperCups();
-                        break;
-                        case "sugar":
-                            ItemCost = playerOne.inventory.sugar.GetPriceOfSugar();
-                        break;
-                        default:
-                            ItemCost = 0;
-                        break;
+            switch (groceryType)
+            {
+                case "lemons":
+                    ItemCost = playerOne.inventory.lemons.GetPriceOfLemons();
+                    break;
+                case "ice Cubes":
+                    ItemCost = playerOne.inventory.iceCubes.GetPriceOfIceCubes();
+                    break;
+                case "cups":
+                    ItemCost = playerOne.inventory.paperCups.GetPriceOfPaperCups();
+                    break;
+                case "sugar":
+                    ItemCost = playerOne.inventory.sugar.GetPriceOfSugar();
+                    break;
+                default:
+                    ItemCost = 0;
+                    break;
 
-                      }
+            }
             if ((playerOne.inventory.GetInventoryMoney() - (ItemCost * NumbertoPurchase)) > 0)
             {
-            
-}
-            
-      }
-   }
+                playerOne.inventory.SetInventoryMoney((ItemCost * NumbertoPurchase * -1));
+                switch (groceryType)
+                {
+                    case "lemons":
+                        playerOne.inventory.lemons.SetQuanityOfLemons(NumbertoPurchase);
+                        break;
+                    case "ice Cubes":
+                        playerOne.inventory.iceCubes.SetQuanityofIceCubes(NumbertoPurchase);
+                        break;
+                    case "cups":
+                        playerOne.inventory.paperCups.SetQuanityOfCups(NumbertoPurchase);
+                        break;
+                    case "sugar":
+                        playerOne.inventory.sugar.SetQuanityOfSugar(NumbertoPurchase);
+                        break;
+                    default:
+                        ItemCost = 0;
+                        break;
+                }
+
+            }
+        }
+    }
 }
     

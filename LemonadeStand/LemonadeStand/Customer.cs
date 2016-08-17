@@ -8,7 +8,8 @@ namespace LemonadeStand
 {
     public class Customers
     {
-            
+        string customerName;
+        int thirstLevel;
 
         public Customers()
      {
