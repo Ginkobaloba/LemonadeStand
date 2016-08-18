@@ -12,13 +12,15 @@ namespace LemonadeStand
         double SpoilRateOfLemons;
         double PriceOfLemons;
         int NumberOfLemonsInRecipe;
+        int PerfectNumberOfLemons;
 
         public Lemons()
         {
+            this.PerfectNumberOfLemons = 4;
             this.QuanityOfLemons = 0;
             this.SpoilRateOfLemons = 0;
             this.PriceOfLemons = .10;
-            this.NumberOfLemonsInRecipe = 0;
+            this.NumberOfLemonsInRecipe = 2;
         }
         public void SetPriceOfLemons(double NewPriceOfLemons)
         {
@@ -43,6 +45,22 @@ namespace LemonadeStand
         public double GetSpoilRateOfLemons()
         {
             return this.SpoilRateOfLemons;
+        }
+        public int GetNumberOfLemonsInRecipe()
+        {
+            return this.NumberOfLemonsInRecipe;
+        }
+        public void SetNumberOfLemonsInRecipe(int newNumberOfLemons)
+        {
+            this.NumberOfLemonsInRecipe = newNumberOfLemons;
+        }
+        public void SetPerfectNumberofLemons(int NewPerfectNumber)
+        {
+            this.PerfectNumberOfLemons = NewPerfectNumber;
+        }
+        public int GetPerfectNumberOfLemons()
+        {
+            return this.PerfectNumberOfLemons;
         }
     }
 }

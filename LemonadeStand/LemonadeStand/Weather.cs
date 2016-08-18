@@ -10,7 +10,7 @@ namespace LemonadeStand
     {
         int WeatherConditionInteger;
         string WeatherConditionString;
-        double Temperature;
+        int Temperature;
       
         public Weather()
         {
@@ -18,7 +18,7 @@ namespace LemonadeStand
             SetWeatherConditionInteger();
             SetWeatherConditionString();
         }
-      public double GetTemperature()
+      public int GetTemperature()
             {
 
             return this.Temperature;

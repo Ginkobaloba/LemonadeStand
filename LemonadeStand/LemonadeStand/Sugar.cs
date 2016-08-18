@@ -12,13 +12,15 @@ namespace LemonadeStand
         double SpoilRateSugar;
         double PriceOfSugar;
         int NumberOfSugarInRecipe;
+        int perfectNumberOfSugar;
 
         public Sugar()
         {
             this.QuanityOfSugar = 0;
             this.SpoilRateSugar = 0;
             this.PriceOfSugar = .05;
-            this.NumberOfSugarInRecipe = 0;
+            this.NumberOfSugarInRecipe = 1;
+            this.perfectNumberOfSugar = 6;
         }
         public void SetQuanityOfSugar(int AmountSugarBought)
         {
@@ -44,6 +46,22 @@ namespace LemonadeStand
         public double GetPriceOfSugar()
         {
             return this.PriceOfSugar;
+        }
+        public int GetNumberOfSugarInRecipe()
+        {
+            return this.NumberOfSugarInRecipe;
+        }
+        public void SetNumberOfSugarInRecipe(int newNumberOfSugar)
+        {
+            this.NumberOfSugarInRecipe = newNumberOfSugar;
+        }
+        public void setPerfectNumberOfSugar(int newPerfectNumber)
+        {
+            this.perfectNumberOfSugar = newPerfectNumber;
+        }
+        public int GetPerfectNumberOfSugar()
+        {
+            return this.perfectNumberOfSugar;
         }
 
     }

@@ -12,13 +12,14 @@ namespace LemonadeStand
         double ChanceOfWetCups;
         int QuanityOfCups;
         int NumberOfCupsInRecipe;
-
+        int perfectNumberOfCups;
         public PaperCups()
         {
             this.PriceOfPaperCups = .03;
             this.QuanityOfCups = 0;
             this.ChanceOfWetCups = 0;
             this.NumberOfCupsInRecipe = 1;
+            this.perfectNumberOfCups = 10;
         }
         public void SetPriceOfPaperCups(double NewPriceOfPaperCups)
         {
@@ -50,6 +51,22 @@ namespace LemonadeStand
         public int GetQuanityOfCups()
         {
             return this.QuanityOfCups;
+        }
+        public int GetNumberOfCupsInRecipe()
+        {
+            return this.NumberOfCupsInRecipe;
+        }
+        public void SetNumberOfCupsInRecipe(int NewNumberOfCups)
+        {
+            this.NumberOfCupsInRecipe = NewNumberOfCups;
+        }
+        public void SetPerfectNumberOfCups(int newPerfectNumber)
+        {
+            this.perfectNumberOfCups = newPerfectNumber;
+        }
+        public  int GetPerfectNumberOfCups()
+        {
+            return this.perfectNumberOfCups;
         }
     }
 }

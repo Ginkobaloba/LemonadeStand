@@ -20,10 +20,6 @@ namespace LemonadeStand
             iceCubes = new IceCubes();
             paperCups = new PaperCups();
    
-            this.lemons = lemons;
-            this.sugar = sugar;
-            this.paperCups = paperCups;
-            this.iceCubes = iceCubes;
             this.money = 20;
         }
         public Lemons GetInventoryLemons()

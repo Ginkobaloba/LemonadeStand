@@ -25,7 +25,7 @@ namespace LemonadeStand
         {
             return this.PlayerName;
         }
-        public void SetPlayerName(String NewPlayerName)
+        public void SetPlayerName(string NewPlayerName)
         {
             this.PlayerName = NewPlayerName;
         }

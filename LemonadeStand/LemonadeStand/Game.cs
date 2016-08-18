@@ -9,16 +9,21 @@ namespace LemonadeStand
 {
     public class Game
     {
+        Recipe recipe;
         Weather[] myWeather;
         Player playerOne;
+        Player playerTwo;
         Day day;
         Customer[] customers;
         Store store;
         Popularity popularity;
+        int buyLevel;
         public Game()
         {
 
             playerOne = new Player();
+            playerTwo = new Player();
+            recipe = new Recipe();
             day = new Day(0);
             store = new Store();
             popularity = new Popularity();
@@ -29,16 +34,17 @@ namespace LemonadeStand
         {
             this.RunIntroduction();
             this.CreateArrayWeather(day.GetNumberofDays());
-            for (int i = 0; i < day.GetNumberofDays(); i++)
+            for (int dayNumber = 0; dayNumber < day.GetNumberofDays(); dayNumber++)
             {
                 this.CreateCustomerArray();
-                this.RunStore(i);
-                this.RunDay(3);
-                ;
-            }
-            Console.ReadLine();
-        }
 
+                this.RunStore(playerOne, myWeather, dayNumber);
+                this.recipe.RunRecipeScreen(playerOne, myWeather, dayNumber);
+                this.SetBuyLevel(playerOne,dayNumber);
+                this.RunDay(buyLevel, playerOne, dayNumber);
+                //Two player Modifications need to start here
+            }
+        }
         public void RunIntroduction()
         {
             Console.WriteLine("Welcome To Lemonade Stand!");
@@ -46,7 +52,7 @@ namespace LemonadeStand
             Console.WriteLine("Hello, What is your name?");
             playerOne.SetPlayerName(Console.ReadLine());
             Console.Clear();
-            this.PromptSetPlayerName();
+            this.PromptSetPlayerName(playerOne);
             Console.WriteLine("You have 7, 14, or 21 days to make as much money as possible, and you’ve decided to open a lemonade stand!");
             Console.WriteLine("You’ll have complete control over your business, including pricing, quality control, inventory control,");
             Console.WriteLine("and purchasing supplies. Buy your ingredients, set your recipe, and start selling!");
@@ -76,19 +82,31 @@ namespace LemonadeStand
             Console.ReadLine();
             Console.Clear();
         }
-        public void RunStore(int day)
+        public void RunStore(Player player, Weather[] myWeather, int day)
         {
 
-            this.store.GetStoreDisplay(playerOne, myWeather, day);
-            Console.WriteLine("Welcome to the store From this screen you will be able to purchase all the supplies needed to run your stand");
-            Console.ReadLine();
-            this.store.GetStoreDisplay(playerOne, myWeather, day);
-            this.store.PurchaseGroceries(playerOne, myWeather, day);
-            this.store.GetStoreDisplay(playerOne, myWeather, day);
+            this.store.GetStoreDisplay(player, myWeather, day);
+            if (day == 0)
+            {
+                Console.WriteLine("Welcome to the store From this screen you will be able to purchase all the supplies needed to run your stand");
+            }
+            else if (day == 1)
+            {
+                Console.WriteLine("Welcome back! I do hope that your first day was a profitable one!");
+            }
+            else
+            {
+                Console.WriteLine("Welcome, you Know what to do. Don't forget ice");
+            }
+            this.store.GetStoreDisplay(player, myWeather, day);
+            this.store.PurchaseGroceries(player, myWeather, day);
+            this.store.GetStoreDisplay(player, myWeather, day);
+
         }
 
-        public void RunDay(int MagicNumber)
+        public void RunDay(int MagicNumber, Player player, int dayNumber)
         {
+            bool pitcher;
             int cupsSold;
             double moneyMade;
             moneyMade = 0;
@@ -96,44 +114,71 @@ namespace LemonadeStand
 
             for (int a = 0; a < customers.Length; a++)
             {
-                if (customers[a].GetThirstLevel() >= MagicNumber)
-                    {
-                    Console.WriteLine("{0} bought a cup of lemonade!", customers[a].GetCustomerName());
-                    moneyMade = moneyMade + .25;
-                    cupsSold = cupsSold + 1;
-                    }
+                if (cupsSold % 10 == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
+                {
+                    pitcher = true;
+                }
+                else if (cupsSold % 10 != 0)
+                {
+                    pitcher = true;
+                }
                 else
                 {
+                    pitcher = false;
+                }
+                Thread.Sleep(200);
+                if (pitcher == true && customers[a].GetThirstLevel() >= 0 && ((player.inventory.iceCubes.GetQuanityOfIceCubes() - player.inventory.iceCubes.GetNumberOfCubesInRecipe()) >= 0) && ((player.inventory.paperCups.GetQuanityOfCups() - player.inventory.paperCups.GetNumberOfCupsInRecipe()) >= 0))
+                {
+                    Console.Clear();
+                    this.store.GetStoreDisplay(player, myWeather, dayNumber);
+                    Console.WriteLine("{0} bought a cup of lemonade!", customers[a].GetCustomerName());
+                    player.inventory.iceCubes.SetQuanityofIceCubes(-1 * (player.inventory.iceCubes.GetNumberOfCubesInRecipe()));
+                    player.inventory.paperCups.SetQuanityOfCups(-1 * (player.inventory.paperCups.GetNumberOfCupsInRecipe()));
+                    player.inventory.SetInventoryMoney(.25);
+                    moneyMade = moneyMade + .25;
+                    if (cupsSold % 10 == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
+                    {
+                        pitcher = true;
+                        player.inventory.lemons.SetQuanityOfLemons(-1 * (player.inventory.lemons.GetNumberOfLemonsInRecipe()));
+                        player.inventory.sugar.SetQuanityOfSugar(-1 * (player.inventory.sugar.GetNumberOfSugarInRecipe()));
+                    }
+
+                    cupsSold = cupsSold + 1;
+                }
+                else
+                {
+                    Console.Clear();
+                    this.store.GetStoreDisplay(player, myWeather, dayNumber);
                     Console.WriteLine("{0} walked passed without buying.", customers[a].GetCustomerName());
                 }
             }
             Console.WriteLine("Today you made {0}", moneyMade);
-            popularity.SetPopularity(cupsSold);
+            Console.ReadLine();
         }
-        public void PromptSetPlayerName()
+        public void PromptSetPlayerName(Player player)
         {
             string answer;
-            Console.WriteLine("{0}, is that correct?", playerOne.GetPlayerName());
+            Console.WriteLine("{0}, is that correct?", player.GetPlayerName());
             answer = Console.ReadLine();
             if (answer.ToLower() == "yes")
             {
                 Console.Clear();
-                Console.WriteLine("Thank You {0}", playerOne.GetPlayerName());
+                Console.WriteLine("Thank You {0}", player.GetPlayerName());
                 Console.ReadLine();
                 Console.Clear();
             }
             else if (answer.ToLower() == "no")
             {
                 Console.Clear();
-                Console.WriteLine("PlayerOne, What is your name?");
-                playerOne.SetPlayerName(Console.ReadLine());
-                this.PromptSetPlayerName();
+                Console.WriteLine("What is your name?");
+                player.SetPlayerName(Console.ReadLine());
+                this.PromptSetPlayerName(player);
             }
             else
             {
                 Console.Clear();
                 Console.WriteLine("I'm sorry Please Type Yes or No.");
-                this.PromptSetPlayerName();
+                this.PromptSetPlayerName(player);
             }
         }
         public void PromptSetNumberOfDays()
@@ -153,7 +198,7 @@ namespace LemonadeStand
 
         public void CreateArrayWeather(int gameLength)
         {
-            myWeather = new Weather[gameLength];
+            myWeather = new Weather[gameLength + 1];
             for (int i = 0; i < myWeather.Length; i++)
             {
                 myWeather[i] = new Weather();
@@ -170,11 +215,130 @@ namespace LemonadeStand
                 customers[i] = new Customer("Customer " + (i + 1));
                 Thread.Sleep(15);
             }
+        }
+        public void SetBuyLevel(Player player, int day)
+        {
+            int weatherFactor;
+            int recipeFactor;
+
+            weatherFactor = GetWeatherFactor(myWeather, day);
+            recipeFactor = GetPerfectRecipeFactor(player);
+
+            buyLevel = weatherFactor + recipeFactor;
+        }
+        public int GetBuyLevel()
+        {
+            return this.buyLevel;
+        }
+        public int GetWeatherFactor(Weather[] myWeather, int day)
+        {
+            int convertedWeatherNumber;
+
+            convertedWeatherNumber = myWeather[day].GetTemperature();
+
+            if (myWeather[day].GetWeatherConditionInteger() == 1)
+            {
+                convertedWeatherNumber = convertedWeatherNumber + 10;
+            }
+
+            else if (myWeather[day].GetWeatherConditionInteger() == 1)
+            {
+                convertedWeatherNumber = convertedWeatherNumber - 5;
+            }
+            else
+            {
+                convertedWeatherNumber = convertedWeatherNumber - 10;
+            }
+
+            if (convertedWeatherNumber > 95)
+            {
+                return 0;
+            }
+            else if (convertedWeatherNumber > 80)
+            {
+                return 1;
+            }
+            else if (convertedWeatherNumber > 70)
+            {
+                return 2;
+            }
+            else if (convertedWeatherNumber > 60)
+            {
+                return 3;
+            }
+            else if (convertedWeatherNumber > 50)
+            {
+                return 4;
+            }
+            else 
+            {
+                return 5;
+            }
+        }
+
+        public int GetPerfectRecipeFactor(Player player)
+        {
+            int lemonVariance;
+            int sugarVariance;
+            int iceCubeVariance;
+            int totalVariance;
+
+            lemonVariance = Math.Abs(player.inventory.lemons.GetPerfectNumberOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe());
+            sugarVariance = Math.Abs(player.inventory.sugar.GetPerfectNumberOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe());
+            iceCubeVariance = Math.Abs(player.inventory.iceCubes.GetPerfectNumberOfIceCubes() - player.inventory.iceCubes.GetPerfectNumberOfIceCubes());
+
+            totalVariance = iceCubeVariance + lemonVariance + sugarVariance;
+
+            if (totalVariance == 0)
+            {
+                return -1;
+            }
+            else if (totalVariance < 2)
+            {
+                return 0;
+            }
+            else if (totalVariance < 4)
+            {
+                return 1;
+            }
+            else if (totalVariance < 6)
+            {
+                return 2;
+            }
+            else if (totalVariance < 8)
+            {
+                return 3;
+            }
+            else if (totalVariance < 10)
+            {
+                return 4;
+            }
+            else if (totalVariance < 12)
+            {
+                return 5;
+            }
+            else if (totalVariance < 14)
+            {
+                return 6;
+            }
+            else
+            {
+                return 7;
+            }
+
 
         }
     }
-
 }
 
 
 
+            // Not\Needed but saved fo tory(int cupsSold, double MoneyMade)
+            //{
+            //    double x = Convert.ToDouble(cupsSold);
+            //    int pitchersMade = Convert.ToInt32(Math.Ceiling(x / 10));
+            //    playerOne.inventory.SetInventoryMoney(MoneyMade);
+            //    playerOne.inventory.paperCups.SetQuanityOfCups(cupsSold * -1);
+            //    playerOne.inventory.iceCubes.SetQuanityofIceCubes(cupsSold * playerOne.inventory.iceCubes.GetNumberOfCubesInRecipe());
+
+//}
