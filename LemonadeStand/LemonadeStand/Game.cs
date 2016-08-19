@@ -17,7 +17,7 @@ namespace LemonadeStand
         Customer[] customers;
         Store store;
         Popularity popularity;
-        int buyLevel;
+        double buyLevel;
         public Game()
         {
 
@@ -34,10 +34,11 @@ namespace LemonadeStand
         {
             this.RunIntroduction();
             this.CreateArrayWeather(day.GetNumberofDays());
+
+
             for (int dayNumber = 0; dayNumber < day.GetNumberofDays(); dayNumber++)
             {
                 this.CreateCustomerArray();
-
                 this.RunStore(playerOne, myWeather, dayNumber);
                 this.recipe.RunRecipeScreen(playerOne, myWeather, dayNumber);
                 this.SetBuyLevel(playerOne,dayNumber);
@@ -104,13 +105,16 @@ namespace LemonadeStand
 
         }
 
-        public void RunDay(int MagicNumber, Player player, int dayNumber)
+        public void RunDay(double buyLevel, Player player, int dayNumber)
         {
             bool pitcher;
             int cupsSold;
             double moneyMade;
+            double costOfLemonade;
+            costOfLemonade = player.GetCostOfLemonade();
             moneyMade = 0;
             cupsSold = 0;
+            int numberOfCupsInPitcher = 10;
 
             for (int a = 0; a < customers.Length; a++)
             {
@@ -127,16 +131,16 @@ namespace LemonadeStand
                     pitcher = false;
                 }
                 Thread.Sleep(200);
-                if (pitcher == true && customers[a].GetThirstLevel() >= 0 && ((player.inventory.iceCubes.GetQuanityOfIceCubes() - player.inventory.iceCubes.GetNumberOfCubesInRecipe()) >= 0) && ((player.inventory.paperCups.GetQuanityOfCups() - player.inventory.paperCups.GetNumberOfCupsInRecipe()) >= 0))
+                if (pitcher == true && customers[a].GetThirstLevel() >= buyLevel && ((player.inventory.iceCubes.GetQuanityOfIceCubes() - player.inventory.iceCubes.GetNumberOfCubesInRecipe()) >= 0) && ((player.inventory.paperCups.GetQuanityOfCups() - player.inventory.paperCups.GetNumberOfCupsInRecipe()) >= 0))
                 {
                     Console.Clear();
                     this.store.GetStoreDisplay(player, myWeather, dayNumber);
                     Console.WriteLine("{0} bought a cup of lemonade!", customers[a].GetCustomerName());
                     player.inventory.iceCubes.SetQuanityofIceCubes(-1 * (player.inventory.iceCubes.GetNumberOfCubesInRecipe()));
                     player.inventory.paperCups.SetQuanityOfCups(-1 * (player.inventory.paperCups.GetNumberOfCupsInRecipe()));
-                    player.inventory.SetInventoryMoney(.25);
-                    moneyMade = moneyMade + .25;
-                    if (cupsSold % 10 == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
+                    player.inventory.SetInventoryMoney(costOfLemonade);
+                    moneyMade = moneyMade + costOfLemonade;
+                    if (cupsSold % numberOfCupsInPitcher == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
                     {
                         pitcher = true;
                         player.inventory.lemons.SetQuanityOfLemons(-1 * (player.inventory.lemons.GetNumberOfLemonsInRecipe()));
@@ -220,13 +224,21 @@ namespace LemonadeStand
         {
             int weatherFactor;
             int recipeFactor;
-
+            double costfactor;
+            costfactor = GetCostFactor(player);
             weatherFactor = GetWeatherFactor(myWeather, day);
             recipeFactor = GetPerfectRecipeFactor(player);
-
-            buyLevel = weatherFactor + recipeFactor;
+            if (recipeFactor == -5)
+            {
+                buyLevel = weatherFactor + recipeFactor;
+            }
+            else
+            {
+                buyLevel = (weatherFactor + recipeFactor) * costfactor;
+            }
+            
         }
-        public int GetBuyLevel()
+        public double GetBuyLevel()
         {
             return this.buyLevel;
         }
@@ -278,6 +290,7 @@ namespace LemonadeStand
 
         public int GetPerfectRecipeFactor(Player player)
         {
+            int cupVariance;
             int lemonVariance;
             int sugarVariance;
             int iceCubeVariance;
@@ -286,9 +299,14 @@ namespace LemonadeStand
             lemonVariance = Math.Abs(player.inventory.lemons.GetPerfectNumberOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe());
             sugarVariance = Math.Abs(player.inventory.sugar.GetPerfectNumberOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe());
             iceCubeVariance = Math.Abs(player.inventory.iceCubes.GetPerfectNumberOfIceCubes() - player.inventory.iceCubes.GetPerfectNumberOfIceCubes());
-
+            cupVariance = player.inventory.paperCups.GetNumberOfCupsInRecipe();
             totalVariance = iceCubeVariance + lemonVariance + sugarVariance;
 
+
+            if (cupVariance == 10)
+            {
+                return -5;
+            }
             if (totalVariance == 0)
             {
                 return -1;
@@ -328,12 +346,35 @@ namespace LemonadeStand
 
 
         }
+        public double GetCostFactor(Player player)
+        {
+            double price;
+            price = player.GetCostOfLemonade();
+            // magic numbers represent price points and influence on buyrate
+            if (price < .30)
+            {
+                return .5;
+            }
+            else if (price < .51)
+            {
+                return 1;
+            }
+            else if (price < .99)
+            {
+                return 1.5;
+            }
+            else
+            {
+                return 10;
+            }
+
+        }
     }
 }
 
 
 
-            // Not\Needed but saved fo tory(int cupsSold, double MoneyMade)
+            // Not\Needed but saved for ceiling method(int cupsSold, double MoneyMade)
             //{
             //    double x = Convert.ToDouble(cupsSold);
             //    int pitchersMade = Convert.ToInt32(Math.Ceiling(x / 10));

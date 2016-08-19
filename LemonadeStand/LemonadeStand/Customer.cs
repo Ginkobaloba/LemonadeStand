@@ -15,7 +15,7 @@ namespace LemonadeStand
         {
             Random random = new Random();
             this.customerName = name;
-            this.thirstLevel = random.Next(1, 6);
+            this.thirstLevel = random.Next(1, 11);
         }
       public int GetThirstLevel()
         {

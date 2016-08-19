@@ -12,19 +12,10 @@ namespace LemonadeStand
         int i;
         int numberToPurchase;
         string groceryType;
-        double costOfLemonade;
         public Store()
         {
-            this.costOfLemonade = .25;
         }
-        public void SetCostOfLemonade(double newCostOfLemonade)
-        {
-            this.costOfLemonade = newCostOfLemonade;
-        }
-        public double GetCostofLemonade()
-        {
-            return this.costOfLemonade;
-        }
+
         public void GetStoreDisplay(Player player, Weather[] myWeather, int day)
         {
             Console.Clear();

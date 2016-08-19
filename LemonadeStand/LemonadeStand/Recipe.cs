@@ -44,9 +44,8 @@ namespace LemonadeStand
         public void RecipePrompt(Player player, Weather[] myWeather, int day, int material = 0)
         {
             int amountInRecipe;
-
-
-            for (; material < 4; material++)
+            string confirm;
+            for (; material < 5; material++)
             {
                 materialType = GetMaterialType(material);
                 GetRecipeDisplay(player, myWeather, day);
@@ -62,25 +61,31 @@ namespace LemonadeStand
                 {
                     Console.WriteLine("How many {0} would you like in each cup?", materialType);
                 }
-                else
+                else if (material == 3)
                 {
                     Console.WriteLine("How many {0} would you like to give each customer?", materialType);
                 }
-                    if (int.TryParse(Console.ReadLine(), out amountInRecipe)&& amountInRecipe >0)
+                else
+                {
+                    Console.WriteLine("What would you like to set the {0} of your lemonade?", materialType);
+                    confirm = Console.ReadLine();
+                    this.ConfirmCostOfLemonade(player, confirm);
+                    break;
+                }
+                    if (int.TryParse(Console.ReadLine(), out amountInRecipe) && amountInRecipe > 0)
                     {
                         Console.Clear();
                         amountInRecipe = this.confirmAmountInRecipe(amountInRecipe, materialType, player, myWeather, day);
                         SetRecipeValues(player, materialType, amountInRecipe);
                     }
-                    else
-                    {
+                    else{
                         Console.WriteLine("You Have Entered an Invalid Response.");
                         Console.ReadLine();
                         material--;
                     }
                 }
-            
-        }
+            }
+        
         public string GetMaterialType(int i)
         {
             switch (i)
@@ -93,6 +98,8 @@ namespace LemonadeStand
                     return "ice Cubes";
                 case 3:
                     return "cups";
+                case 4:
+                    return "price";
                 default:
                     return "PassionFruit";
             }
@@ -157,9 +164,41 @@ namespace LemonadeStand
                 case "sugar":
                     player.inventory.sugar.SetNumberOfSugarInRecipe(amountInRecipe);
                     break;
+                case "Price":
+                    player.SetCostofLemonade(amountInRecipe);
+                    break;
                 default:
                     break;
             }
         }
+        public void ConfirmCostOfLemonade(Player player, string confirm)
+        {
+            double amountInRecipeDouble;
+
+        if (double.TryParse(confirm, out amountInRecipeDouble) && amountInRecipeDouble > 0)
+
+                Console.WriteLine("Please confirm that you would like to charge ${0} per cup.", amountInRecipeDouble);
+                confirm = Console.ReadLine();
+                confirm = confirm.ToLower();
+
+                switch (confirm)
+                {
+                    case "yes":
+                        player.SetCostofLemonade(amountInRecipeDouble);
+                        break;
+                    case "no":
+                    Console.WriteLine("How much would you like to charge for a cup of your lemonade?");
+                    confirm = Console.ReadLine();
+                    ConfirmCostOfLemonade(player, confirm);
+                        break;
+
+                    default:
+                        Console.WriteLine("You Have Entered an Invalid Response.");
+                        Console.ReadLine();
+                        this.ConfirmCostOfLemonade(player, confirm);
+                        break;
+
+                }
+            }
     }
 }

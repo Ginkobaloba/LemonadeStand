@@ -10,12 +10,13 @@ namespace LemonadeStand
     {
         string PlayerName;
         public Inventory inventory;
-
+        public double costoflemonade;
         public Player()
         {
             Inventory inventory = new Inventory();
             this.PlayerName = "PlayerName";
             this.inventory = inventory;
+            this.costoflemonade = .25;
         }
         public Inventory GetInventory()
         {
@@ -28,6 +29,14 @@ namespace LemonadeStand
         public void SetPlayerName(string NewPlayerName)
         {
             this.PlayerName = NewPlayerName;
+        }
+        public void SetCostofLemonade(double newCostOfLemonade)
+        {
+            this.costoflemonade = newCostOfLemonade;
+        }
+        public double GetCostOfLemonade()
+        {
+            return this.costoflemonade;
         }
     }
 }
