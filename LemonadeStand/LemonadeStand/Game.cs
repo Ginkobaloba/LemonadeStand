@@ -15,8 +15,8 @@ namespace LemonadeStand
         Player playerTwo;
         Day day;
         Customer[] customers;
-        Store store;
         Popularity popularity;
+        Store store;
         double buyLevel;
         public Game()
         {
@@ -42,7 +42,7 @@ namespace LemonadeStand
                 this.RunStore(playerOne, myWeather, dayNumber);
                 this.recipe.RunRecipeScreen(playerOne, myWeather, dayNumber);
                 this.SetBuyLevel(playerOne,dayNumber);
-                this.RunDay(buyLevel, playerOne, dayNumber);
+                day.RunDay(buyLevel, playerOne, dayNumber, customers, store, myWeather);
                 //Two player Modifications need to start here
             }
         }
@@ -105,60 +105,6 @@ namespace LemonadeStand
 
         }
 
-        public void RunDay(double buyLevel, Player player, int dayNumber)
-        {
-            bool pitcher;
-            int cupsSold;
-            double moneyMade;
-            double costOfLemonade;
-            costOfLemonade = player.GetCostOfLemonade();
-            moneyMade = 0;
-            cupsSold = 0;
-            int numberOfCupsInPitcher = 10;
-
-            for (int a = 0; a < customers.Length; a++)
-            {
-                if (cupsSold % 10 == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
-                {
-                    pitcher = true;
-                }
-                else if (cupsSold % 10 != 0)
-                {
-                    pitcher = true;
-                }
-                else
-                {
-                    pitcher = false;
-                }
-                Thread.Sleep(200);
-                if (pitcher == true && customers[a].GetThirstLevel() >= buyLevel && ((player.inventory.iceCubes.GetQuanityOfIceCubes() - player.inventory.iceCubes.GetNumberOfCubesInRecipe()) >= 0) && ((player.inventory.paperCups.GetQuanityOfCups() - player.inventory.paperCups.GetNumberOfCupsInRecipe()) >= 0))
-                {
-                    Console.Clear();
-                    this.store.GetStoreDisplay(player, myWeather, dayNumber);
-                    Console.WriteLine("{0} bought a cup of lemonade!", customers[a].GetCustomerName());
-                    player.inventory.iceCubes.SetQuanityofIceCubes(-1 * (player.inventory.iceCubes.GetNumberOfCubesInRecipe()));
-                    player.inventory.paperCups.SetQuanityOfCups(-1 * (player.inventory.paperCups.GetNumberOfCupsInRecipe()));
-                    player.inventory.SetInventoryMoney(costOfLemonade);
-                    moneyMade = moneyMade + costOfLemonade;
-                    if (cupsSold % numberOfCupsInPitcher == 0 && ((player.inventory.lemons.GetQuanityOfLemons() - player.inventory.lemons.GetNumberOfLemonsInRecipe()) >= 0) && ((player.inventory.sugar.GetQuanityOfSugar() - player.inventory.sugar.GetNumberOfSugarInRecipe()) >= 0))
-                    {
-                        pitcher = true;
-                        player.inventory.lemons.SetQuanityOfLemons(-1 * (player.inventory.lemons.GetNumberOfLemonsInRecipe()));
-                        player.inventory.sugar.SetQuanityOfSugar(-1 * (player.inventory.sugar.GetNumberOfSugarInRecipe()));
-                    }
-
-                    cupsSold = cupsSold + 1;
-                }
-                else
-                {
-                    Console.Clear();
-                    this.store.GetStoreDisplay(player, myWeather, dayNumber);
-                    Console.WriteLine("{0} walked passed without buying.", customers[a].GetCustomerName());
-                }
-            }
-            Console.WriteLine("Today you made {0}", moneyMade);
-            Console.ReadLine();
-        }
         public void PromptSetPlayerName(Player player)
         {
             string answer;
@@ -244,6 +190,7 @@ namespace LemonadeStand
         }
         public int GetWeatherFactor(Weather[] myWeather, int day)
         {
+            int numberToReturn;
             int convertedWeatherNumber;
 
             convertedWeatherNumber = myWeather[day].GetTemperature();
@@ -264,28 +211,29 @@ namespace LemonadeStand
 
             if (convertedWeatherNumber > 95)
             {
-                return 0;
+                numberToReturn = 0;
             }
             else if (convertedWeatherNumber > 80)
             {
-                return 1;
+                numberToReturn = 1;
             }
             else if (convertedWeatherNumber > 70)
             {
-                return 2;
+                numberToReturn = 2;
             }
             else if (convertedWeatherNumber > 60)
             {
-                return 3;
+                numberToReturn = 3;
             }
             else if (convertedWeatherNumber > 50)
             {
-                return 4;
+                numberToReturn = 4;
             }
-            else 
+            else
             {
-                return 5;
+                numberToReturn = 5;
             }
+            return numberToReturn;
         }
 
         public int GetPerfectRecipeFactor(Player player)
