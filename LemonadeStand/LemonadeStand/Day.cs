@@ -79,10 +79,15 @@ namespace LemonadeStand
                     Console.WriteLine("{0} walked passed without buying.", customers[a].GetCustomerName());
                 }
             }
-            Console.WriteLine("Today you sold{0}", cupsSold);
+            Console.WriteLine("Today you sold {0} cups of lemonade!", cupsSold);
+            player.popularity.SetPopularity(cupsSold);
             Console.WriteLine("Today you made {0}", moneyMade);
 
             Console.ReadLine();
+        }
+        public void EndDay(double buyLevel, Player player, int dayNumber, Customer[] customers, Store store, Weather[] myWeather)
+        {
+           
         }
      }
  }

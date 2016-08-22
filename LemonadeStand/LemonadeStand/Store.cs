@@ -33,7 +33,7 @@ namespace LemonadeStand
                 GetStoreDisplay(player, myWeather, day);
 
                 Console.WriteLine("How many {0} would you like? They cost ${1:.00} each.", groceryType, itemCost);
-                if (int.TryParse(Console.ReadLine(), out numberToPurchase) && numberToPurchase > 0)
+                if (int.TryParse(Console.ReadLine(), out numberToPurchase) && numberToPurchase >= 0)
                 {
                     Console.Clear();
                     numberToPurchase = this.confirmAmountToPurchase(numberToPurchase, groceryType, player, myWeather, day);

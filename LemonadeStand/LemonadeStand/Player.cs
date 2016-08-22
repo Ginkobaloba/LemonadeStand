@@ -11,18 +11,24 @@ namespace LemonadeStand
         string PlayerName;
         public Inventory inventory;
         public double costoflemonade;
-        Popularity popularity;
+        public Popularity popularity;
         public Player()
         {
             Inventory inventory = new Inventory();
+            Popularity popularity = new Popularity();
             this.PlayerName = "PlayerName";
             this.inventory = inventory;
             this.costoflemonade = .25;
-           //add popularity here
+            this.popularity = popularity;
+           
         }
         public Inventory GetInventory()
         {
             return this.inventory;
+        }
+        public Popularity GetPopularity()
+        {
+            return this.popularity;
         }
         public string GetPlayerName()
         {

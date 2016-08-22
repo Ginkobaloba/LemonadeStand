@@ -15,7 +15,6 @@ namespace LemonadeStand
         Player playerTwo;
         Day day;
         Customer[] customers;
-        Popularity popularity;
         Store store;
         double buyLevel;
         public Game()
@@ -26,29 +25,49 @@ namespace LemonadeStand
             recipe = new Recipe();
             day = new Day(0);
             store = new Store();
-            popularity = new Popularity();
 
         }
 
         public void RunGame()
         {
+            string playAgain;
             this.RunIntroduction();
             this.CreateArrayWeather(day.GetNumberofDays());
 
 
             for (int dayNumber = 0; dayNumber < day.GetNumberofDays(); dayNumber++)
             {
-                this.CreateCustomerArray();
-                this.RunStore(playerOne, myWeather, dayNumber);
+                this.CreateCustomerArray(playerOne);
+                Console.Clear();
                 this.recipe.RunRecipeScreen(playerOne, myWeather, dayNumber);
+                this.RunStore(playerOne, myWeather, dayNumber);
                 this.SetBuyLevel(playerOne,dayNumber);
                 day.RunDay(buyLevel, playerOne, dayNumber, customers, store, myWeather);
+                day.EndDay(buyLevel, playerOne, dayNumber, customers, store, myWeather);
                 //Two player Modifications need to start here
+            }
+            Console.WriteLine("Congratulations, You have completed your game.");
+            Console.WriteLine("You played for {0} days.",day.GetNumberofDays());
+            Console.WriteLine("You ended the game with {0}", playerOne.inventory.GetInventoryMoney());
+            Console.WriteLine("Would you like to play again?");
+            playAgain = Console.ReadLine();
+            playAgain = playAgain.ToLower();
+
+            if (playAgain == "yes")
+            {
+                RunGame();
+            }
+            else
+            {
+               for (int A = 0; A < 10000; A++)
+                {
+                    Console.WriteLine("Thanks for Playing!");
+                }
             }
         }
         public void RunIntroduction()
         {
-            Console.WriteLine("Welcome To Lemonade Stand!");
+            Console.WriteLine("Welcome To Lemonade Stand! Please press enter to continue.");
             Console.ReadLine();
             Console.WriteLine("Hello, What is your name?");
             playerOne.SetPlayerName(Console.ReadLine());
@@ -58,14 +77,14 @@ namespace LemonadeStand
             Console.WriteLine("You’ll have complete control over your business, including pricing, quality control, inventory control,");
             Console.WriteLine("and purchasing supplies. Buy your ingredients, set your recipe, and start selling!");
             Console.ReadLine();
-            Console.WriteLine("The first thing you’ll have to worry about is your recipe. At first, go with the default recipe,");
+            Console.WriteLine("The first thing you’ll have to worry about is your recipe.");
             Console.WriteLine("but try to experiment a little bit and see if you can find a better one. Make sure you buy enough");
             Console.WriteLine("of all your ingredients, or you won’t be able to sell!");
             Console.ReadLine();
             Console.WriteLine("You’ll also have to deal with the weather, which will play a big part when customers are deciding");
-            Console.WriteLine("whether or not to buy your lemonade. Read the weather report every day!When the temperature drops,");
-            Console.WriteLine("or the weather turns bad(overcast, cloudy, rain), don’t expect them to buy nearly as much as they");
-            Console.WriteLine("would on a hot, hazy day, so buy accordingly.Feel free to set your prices higher on those hot,");
+            Console.WriteLine("whether or not to buy your lemonade. Read the weather report every day! When the temperature drops,");
+            Console.WriteLine("or the weather turns bad (sunny, overcast, raining), don’t expect them to buy nearly as much as they");
+            Console.WriteLine("would on a hot, so buy accordingly. Feel free to set your prices higher on those hot,");
             Console.WriteLine("muggy days too, as you’ll make more profit, even if you sell a bit less lemonade.");
             Console.ReadLine();
             Console.WriteLine("The other major factor which comes into play is your customer’s satisfaction. As you sell your");
@@ -82,6 +101,7 @@ namespace LemonadeStand
             Console.WriteLine("Thank You, You have Selected to play for {0} days.", day.GetNumberofDays());
             Console.ReadLine();
             Console.Clear();
+            Console.WriteLine("Now Loading");
         }
         public void RunStore(Player player, Weather[] myWeather, int day)
         {
@@ -97,7 +117,7 @@ namespace LemonadeStand
             }
             else
             {
-                Console.WriteLine("Welcome, you Know what to do. Don't forget ice");
+                Console.WriteLine("Welcome, you know what to do. Don't forget ice");
             }
             this.store.GetStoreDisplay(player, myWeather, day);
             this.store.PurchaseGroceries(player, myWeather, day);
@@ -156,9 +176,9 @@ namespace LemonadeStand
 
             }
         }
-        public void CreateCustomerArray()
+        public void CreateCustomerArray(Player player)
         {
-            int numberOfCustomers = popularity.GetPopularity();
+            int numberOfCustomers = player.popularity.GetPopularity();
             customers = new Customer[numberOfCustomers];
             for (int i = 0; i < numberOfCustomers; i++)
             {
